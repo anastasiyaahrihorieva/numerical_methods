@@ -1,0 +1,73 @@
+A = zeros(10);
+condA = 10^10;
+mini = rand(1);
+maxi = condA * mini;
+A(1, 1) = maxi;
+A(2, 2) = mini;
+
+for i = 3:10
+    A(i, i) = mini + (maxi - mini) * rand(1);
+end
+
+for i = 1:10
+    for j = (i+1):10
+        A(i, j) = rand(1);
+    end
+end
+
+[Q, R] = qr(rand(10));
+A = Q.' * A * Q;  
+
+writematrix(A, 'matrix_A.txt', 'Delimiter', 'tab');
+type 'matrix_A.txt';
+
+condA1 = zeros(1, 10);  % массив для хранения значений обусл
+
+% Цикл для создания и проверки разных матриц
+for q = 1:10
+    condA = condA * q;  % Обновление 
+    maxi = condA * mini;
+    A(1, 1) = maxi; 
+    A(2, 2) = mini;
+
+    for i = 3:10
+        A(i, i) = mini + (maxi - mini) * rand(1);
+    end
+
+    for i = 1:10
+        for j = (i + 1):10
+            A(i, j) = rand(1);
+        end
+    end
+
+    [Q, R] = qr(rand(10));
+    A = Q.' * A * Q;
+
+    writematrix(A, 'matrix_A.txt', 'WriteMode', 'append', 'Delimiter', 'tab');
+    condA1(q) = cond(A);  % Сохранение значений условности
+end
+
+
+if exist('NORM.txt', 'file')
+    data = load('NORM.txt');  
+    figure
+    loglog(condA1, data(:, 1), 'red'); 
+    grid on;
+    hold on; 
+    loglog(condA1, data(:, 2), 'blue');  
+    hold off; 
+else
+    error('NORM.txt не найден');
+end
+
+
+if exist('errors.txt', 'file')
+    data = load('errors.txt');  
+    figure
+    loglog(data(:, 1), data(:, 2), 'red'); 
+    grid on;
+    hold on; 
+
+else
+    error('errors.txt не найден');
+end
