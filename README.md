@@ -7,7 +7,7 @@
 **Шаги метода:**
 1. Предиктор (явный метод Эйлера):
    ```math
-  $$ y_{n+1} = y_n + \frac{h}{2} \left[ f(x_n, y_n) + f(x_{n+1}, y_{n+1}^*) \right] $$
+  $y_{n+1} = y_n + \frac{h}{2} \left[ f(x_n, y_n) + f(x_{n+1}, y_{n+1}^*) \right]$
 2. Корректор (уточнение):
    ```math
    $y_{n+1} = y_n + \frac{h}{2} \left[ f(x_n, y_n) + f(x_{n+1}, y_{n+1}^*) \right]$
